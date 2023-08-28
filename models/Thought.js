@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
+const dateFormat = require('../utils/dateFormat');
 
 // Schema to create Post model
 const thoughtSchema = new Schema({
@@ -11,6 +13,7 @@ const thoughtSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+    //get: timestamp => dateFormat(timestamp)
     get: (timestamp) => {
       // Format the timestamp using your desired format (e.g., using Moment.js)
       // YOU NEED TO INSERT TIME FORMAT HERE 
@@ -21,14 +24,7 @@ const thoughtSchema = new Schema({
     type: String,
     required: true
   },
-  reactions: [{
-    // Define the structure of the reaction here, e.g.:
-    reactionType: String, // Like, Love, etc.
-    reactedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  }]
+  reactions: [reactionSchema]
 }, {
   toJSON: {
     virtuals: true,
