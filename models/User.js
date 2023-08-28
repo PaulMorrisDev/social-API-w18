@@ -1,37 +1,40 @@
 const { Schema, model } = require('mongoose');
 
 // Schema to create User model
-const userSchema = new Schema(
-  {
-    first: String,
-    last: String,
-    age: Number,
-  },
-  {
-    // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
-    toJSON: {
-      virtuals: true,
+const userSchema = new Schema({
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true
     },
-    id: false,
-  }
-);
-
-// Create a virtual property `commentCount` that gets the amount of comments per user
-userSchema
-  .virtual('fullName')
-  // Getter
-  .get(function () {
-    return `${this.first} ${this.last}`;
-  })
-  // Setter to set the first and last name
-  .set(function (v) {
-    const first = v.split(' ')[0];
-    const last = v.split(' ')[1];
-    this.set({ first, last });
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Please provide a valid email address"]
+    },
+    thoughts: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Thought'
+    }],
+    friends: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }]
+  }, {
+    toJSON: {
+      virtuals: true
+    },
+    id: false
   });
-
-// Initialize our User model
-const User = model('user', userSchema);
-
-module.exports = User;
+  
+  // Define a virtual property 'friendCount'
+  userSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+  });
+  
+  const User = model('user', userSchema);
+  
+  module.exports = User;
+  // Please make sure to replace 'Thought' and 'User' with the actual names of your Mongoose models if they are named differently. You can use this model definition to interact with your MongoDB database according to the specified criteria.
