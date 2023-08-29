@@ -3,11 +3,11 @@ const { Thought, User } = require('../models');
 const thoughtController = {
   async getThoughts(req, res) {
     try {
-      const thoughts = await Thought.find()
-      .sort({ createdAt: -1 });
+      const dbThoughtData = await Thought.find();
 
       res.json(dbThoughtData);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
@@ -32,7 +32,7 @@ const thoughtController = {
 
       const dbUserData = await User.findOneAndUpdate(
         { id: req.body.userId },
-        { $push: {thoughts: dbThoughtData._id } },
+        { $push: { thoughts: dbThoughtData._id } },
         { new: true }
       );
 

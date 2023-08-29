@@ -3,8 +3,8 @@ const { Schema } = require('mongoose');
 // Schema for what makes up a comment
 const reactionSchema = new Schema({
   reactionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId()
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId()
   },
   reactionBody: {
     type: String,
@@ -18,11 +18,7 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => {
-      // Format the timestamp using your desired format (e.g., using Moment.js)
-      // ADD TIME STAMP
-      return formatDateSomehow(timestamp);
-    }
+    get: timestamp => dateFormat(timestamp)
   }
 });
 
