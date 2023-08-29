@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-// Schema to create User model
+// Schema for what makes up a user
 const userSchema = new Schema({
     username: {
       type: String,
@@ -29,7 +29,7 @@ const userSchema = new Schema({
     id: false
   });
   
-  // Define a virtual property 'friendCount'
+  // Defined a virtual property 'friendCount'
   userSchema.virtual('friendCount').get(function() {
     return this.friends.length;
   });
@@ -37,4 +37,3 @@ const userSchema = new Schema({
   const User = model('user', userSchema);
   
   module.exports = User;
-  // Please make sure to replace 'Thought' and 'User' with the actual names of your Mongoose models if they are named differently. You can use this model definition to interact with your MongoDB database according to the specified criteria.

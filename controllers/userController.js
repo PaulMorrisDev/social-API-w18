@@ -1,6 +1,7 @@
 const { User, Thought } = require('../models');
 
 const userController = {
+  // Display all users
   async getUsers(req, res) {
     try {
       const dbUserData = await User.find().select('-__v');
@@ -11,6 +12,7 @@ const userController = {
     }
   },
 
+  // Retrieve a user from ID
   async getSingleUser(req, res) {
     try {
       const dbUserData = await User.findOne({ _id: req.params.userId })
@@ -29,6 +31,7 @@ const userController = {
     }
   },
 
+  // Make a new user
   async createUser(req, res) {
     try {
       const dbUserData = await User.create(req.body);
@@ -59,7 +62,7 @@ const userController = {
     }
   },
 
-  // delete user by _id
+  // delete user by ID
   async deleteUser(req, res) {
     try {
       const dbUserData = await User.findOneAndDelete({ _id: req.params.userId });
@@ -68,7 +71,6 @@ const userController = {
         return res.status(404).json({ message: 'No user with this id!' });
       }
 
-      // Bonus: Remove associated thoughts
       await Thought.deleteMany({ username: dbUserData.username });
 
       res.json({ message: 'User deleted!' });

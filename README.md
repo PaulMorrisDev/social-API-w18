@@ -9,7 +9,6 @@ Link to GitHub repo:
 https://github.com/elleinadseer/social-API-w18
 
 Walkthrough video:
-
 https://www.youtube.com/watch?v=HzgCO6lhBgs
 
 ## Development
