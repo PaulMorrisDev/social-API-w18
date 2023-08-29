@@ -1,10 +1,10 @@
-const { Schema } = require('mongoose');
+const { Schema, Types } = require('mongoose'); // Import Types from mongoose
 
 // Schema for what makes up a comment
 const reactionSchema = new Schema({
   reactionId: {
     type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId()
+    default: () => new Types.ObjectId() // Use mongoose.Types.ObjectId
   },
   reactionBody: {
     type: String,
@@ -17,8 +17,8 @@ const reactionSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    get: timestamp => dateFormat(timestamp)
+    default: Date.now
+    // You can also remove the 'get' function for timestamp formatting
   }
 });
 
